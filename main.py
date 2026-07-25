@@ -2,9 +2,18 @@ import os
 import socket
 import sys
 import signal
+import io
+import sounddevice as sd
+import numpy as np
 
+# STT
 import nemo.collections.asr as nemo_asr
 from nemo.utils import logging
+
+## TTS
+import wave
+from piper import PiperVoice, SynthesisConfig
+
 
 from LanguageModel import single_ask
 
@@ -36,13 +45,30 @@ cleanup_socket()
 
 def llm_call(ask: str):
     print("Asked LLM here.")
-    # single_ask(ask)
+    return single_ask(ask)
+
+
+def play_voice(text: str, voice):
+    audio_bytes = bytearray()
+
+    # Piper's generator yields audio chunk objects
+    for chunk in voice.synthesize(text):
+        audio_bytes.extend(chunk.audio_int16_bytes)
+
+    # Convert raw bytes directly to numpy array
+    audio_data = np.frombuffer(audio_bytes, dtype=np.int16)
+
+    sd.play(audio_data, voice.config.sample_rate)
+    sd.wait()
 
 
 # MAIN
 
 print("[Server] Loading ASR model...")
 asr_model = nemo_asr.models.ASRModel.from_pretrained(model_name="nvidia/parakeet-tdt-0.6b-v3")
+
+print("[Server] Loading TTS model...")
+voice = PiperVoice.load("en_GB-cori-high.onnx")
 
 server = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
 server.bind(SOCKET_PATH)
@@ -76,7 +102,8 @@ try:
                 print(f"[Server] Result: {text}")
                 # conn.sendall(text.encode('utf-8'))
 
-                llm_call(text)
+                ans = llm_call(text)
+                play_voice(ans, voice)
 
 finally:
     print("[Server] Closing server socket...")

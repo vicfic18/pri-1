@@ -36,13 +36,13 @@ class LanguageModel:
         ]
 
     def single_ask(self, ask: str):
-        response = client.chat.completions.create(
+        response = self.client.chat.completions.create(
             model="local-model",  # llama-server accepts any string here
             messages=[
-                {"role": "system", "content": system_prompt},
+                {"role": "system", "content": self.system_prompt},
                 {"role": "user", "content": ask},
             ],
-            tools=tools,
+            tools=self.tools,
             tool_choice="auto",
             temperature=0.1  # Lower temperature helps tool call reliability
         )
@@ -58,9 +58,11 @@ class LanguageModel:
                 print(f"Tool Requested: {fn_name}")
                 print(f"Arguments: {fn_args}")
                 
+                return message.content
                 # Dispatch function execution here in your assistant pipeline...
         else:
             print("Assistant Response:", message.content)
+            return message.content
 
 _default_model = LanguageModel()
 single_ask = _default_model.single_ask
