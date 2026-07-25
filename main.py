@@ -6,6 +6,8 @@ import signal
 import nemo.collections.asr as nemo_asr
 from nemo.utils import logging
 
+from LanguageModel import single_ask
+
 SOCKET_PATH = "/tmp/asr_service.sock"
 logging.setLevel(logging.ERROR)
 
@@ -29,16 +31,18 @@ def cleanup_socket():
 
 cleanup_socket()
 
+
+# Helper functions
+
+def llm_call(ask: str):
+    print("Asked LLM here.")
+    # single_ask(ask)
+
+
 # MAIN
 
 print("[Server] Loading ASR model...")
 asr_model = nemo_asr.models.ASRModel.from_pretrained(model_name="nvidia/parakeet-tdt-0.6b-v3")
-
-# 1. Fix warning 1: Disable pretokenize to avoid main process sampling warnings
-if hasattr(asr_model, "_cfg") and "test_ds" in asr_model._cfg:
-    with open_dict(asr_model._cfg.test_ds):
-        asr_model._cfg.test_ds.pretokenize = False
-
 
 server = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
 server.bind(SOCKET_PATH)
@@ -65,13 +69,14 @@ try:
                 conn.sendall(b"OK_SHUTDOWN")
                 break
 
-            # Application Logic: Transcribe audio
             elif data and os.path.exists(data):
                 print(f"[Server] Transcribing: {data}")
                 output = asr_model.transcribe([data])
                 text = output[0].text
                 print(f"[Server] Result: {text}")
-                conn.sendall(text.encode('utf-8'))
+                # conn.sendall(text.encode('utf-8'))
+
+                llm_call(text)
 
 finally:
     print("[Server] Closing server socket...")
