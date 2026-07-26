@@ -9,3 +9,7 @@ wheels/
 # Virtual environments
 .venv
 test_data
+
+# voice files
+*.onnx
+*.onnx.json

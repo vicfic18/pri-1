@@ -5,6 +5,7 @@ import signal
 import io
 import sounddevice as sd
 import numpy as np
+import time
 
 # STT
 import nemo.collections.asr as nemo_asr
@@ -44,7 +45,6 @@ cleanup_socket()
 # Helper functions
 
 def llm_call(ask: str):
-    print("Asked LLM here.")
     return single_ask(ask)
 
 
@@ -52,8 +52,12 @@ def play_voice(text: str, voice):
     audio_bytes = bytearray()
 
     # Piper's generator yields audio chunk objects
+    st = time.perf_counter()
     for chunk in voice.synthesize(text):
         audio_bytes.extend(chunk.audio_int16_bytes)
+    et = time.perf_counter()
+    print(f"TTS Response time: {((et-st)*1000):.2f}ms")
+
 
     # Convert raw bytes directly to numpy array
     audio_data = np.frombuffer(audio_bytes, dtype=np.int16)
@@ -97,12 +101,20 @@ try:
 
             elif data and os.path.exists(data):
                 print(f"[Server] Transcribing: {data}")
+
+                st = time.perf_counter()
                 output = asr_model.transcribe([data])
+                et = time.perf_counter()
+                print(f"STT Response time: {((et-st)*1000):.2f}ms")
+
                 text = output[0].text
-                print(f"[Server] Result: {text}")
+                print(f"Transcribed: {text}")
                 # conn.sendall(text.encode('utf-8'))
 
+                st = time.perf_counter()
                 ans = llm_call(text)
+                et = time.perf_counter()
+                print(f"LLM Response time: {((et-st)*1000):.2f}ms")
                 play_voice(ans, voice)
 
 finally:

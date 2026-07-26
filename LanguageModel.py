@@ -61,7 +61,7 @@ class LanguageModel:
                 return message.content
                 # Dispatch function execution here in your assistant pipeline...
         else:
-            print("Assistant Response:", message.content)
+            print("Response:", message.content)
             return message.content
 
 _default_model = LanguageModel()

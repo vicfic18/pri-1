@@ -15,6 +15,7 @@ RIPPLE_SOCKET_PATH = "/tmp/gnome_ripple.sock"
 OUTPUT_PATH = '/tmp/recording.wav'
 keyboard_path = '/dev/input/event4'
 NATIVE_RATE, TARGET_RATE, CHANNELS = 44100, 16000, 1
+# This comes from the copilot button in new laptops
 target_combination = {'KEY_LEFTSHIFT', 'KEY_LEFTMETA', 'KEY_F23'}
 
 dev = InputDevice(keyboard_path)
