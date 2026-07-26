@@ -1,7 +1,7 @@
 # PRI-1
 ask and you shall receive. (v. alpha)
 
-Personal Requirement Indulgence - One, is an application that does things you tell it to do. It can also be described as an end to end agentic LLM powered AI that integrates well with Linux Desktop environments. This was an impulsive friday evening project that got taken over by feature creep.
+Personal Requirement Indulgence - One, is an application that does things you tell it to do. It can also be described as an end to end agentic LLM powered AI that integrates well with Linux Desktop environments. This was an impulsive friday evening project that I intend to work more on later.
 
 ## Install
 
@@ -20,7 +20,7 @@ sudo uv run key_daemon.py
 ```
 You need an LLM inference source. I ran `Ternary-Bonsai-8B-Q2_0_g64.gguf` through llama.cpp because it ran at around 150tk/s on my laptop 5070Ti. Try to get a fast one.
 
-I made a GNOME 50 Extension for live UI feedback when pressing down the button, I'll publish it soon and will put it up.
+I made a GNOME 50 Extension for live OpenGL shader effect when pressing down to record. 
 
 ## System Requirements
 
