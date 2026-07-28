@@ -28,7 +28,7 @@ pri-1-daemon = "pri_1.key_daemon:main"
 package = true
 
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling", "editables"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
