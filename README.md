@@ -7,16 +7,16 @@ Personal Requirement Indulgence - One, is an application that does things you te
 
 Clone the repo. 
 ```bash
-uv install
+uv install .[cpu|rocm|cuda]
 #for tts download the voice
 uv run python3 -m piper.download_voices en_GB-cori-high
 
 # run main program
-uv run main.py
+uv run pri-1.main
 ```
 Open another terminal
 ```bash
-sudo uv run key_daemon.py
+sudo uv run pri-1.key_daemon
 ```
 You need an LLM inference source. I ran `Ternary-Bonsai-8B-Q2_0_g64.gguf` through llama.cpp because it ran at around 150tk/s on my laptop 5070Ti. Try to get a fast one.
 
