@@ -49,7 +49,7 @@
         system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
-          python = pkgs.python3;
+          python = pkgs.python312;
         in
         (pkgs.callPackage pyproject-nix.build.packages {
           inherit python;
