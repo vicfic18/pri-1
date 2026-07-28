@@ -16,7 +16,7 @@ import wave
 from piper import PiperVoice, SynthesisConfig
 
 
-from LanguageModel import single_ask
+from .LanguageModel import single_ask
 
 SOCKET_PATH = "/tmp/asr_service.sock"
 logging.setLevel(logging.ERROR)

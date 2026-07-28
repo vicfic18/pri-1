@@ -26,7 +26,7 @@ I made a GNOME 50 Extension for live OpenGL shader effect when pressing down to 
 
 Recommended: I built this with my laptop in mind, so as of now, the STT, LLM & TTS runs on my 12GB VRAM.
 
->_OPTIMISATIONS_: I agree this is not optmal, and I intend to offload the STT part onto the NPU for less power usage. I consider TTS as more a gimmick, as I usually prefer reading faster than listening, so turn it off. For LLM, I do intend to use function call finetuned models which can drastically reduce power consumption.
+>_OPTIMISATIONS_: I agree this is not optimal, and I intend to offload the STT part onto the NPU for less power usage. I consider TTS as more a gimmick, as I usually prefer reading faster than listening, so turn it off. For LLM, I do intend to use function call finetuned models which can drastically reduce power consumption.
 
 The timing breakdown is also interesting, for the average query:
 - STT takes around 60ms

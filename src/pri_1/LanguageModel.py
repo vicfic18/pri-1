@@ -9,7 +9,7 @@ class LanguageModel:
             base_url="http://localhost:8080/v1",
             api_key="not-needed"  # Local server does not require an API key
         )
-        self.system_prompt = Path("prompt.txt").read_text()
+        self.system_prompt = (Path(__file__).parent / "prompt.txt").read_text()
         self.tools = tools = [
             {
                 "type": "function",
